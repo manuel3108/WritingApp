@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { zoomMove } from '../TouchEvents'
-	// import interact from "interactjs";
+    import Page from './Page'
 
     var drawingWrapper;
 
@@ -58,34 +58,11 @@
         setWrapperSizes();
 
         zoomMove(drawingWrapper);
-
-        // interact(drawingWrapper)
-		// 	.gesturable({
-		// 		onmove: function (event) {
-		// 			var elem = event.target;
-
-		// 			scale += event.ds * scaleFactor;
-
-		// 			elem.style.webkitTransform = elem.style.transform = getTransform();
-		// 		},
-		// 	})
-		// 	.draggable({
-		// 		listeners: {
-		// 			move(event) {
-		// 				position.x += event.dx * (1 / scale);
-		// 				position.y += event.dy * (1 / scale);
-
-		// 				event.target.style.transform = getTransform();
-		// 			},
-		// 		},
-		// 	});
 	});
 </script>
 
 <div bind:this={drawingWrapper}  class="drawing-wrapper">
-    <svg width="100" height="100">
-      <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-    </svg>
+    <Page />
 </div>
 
 
