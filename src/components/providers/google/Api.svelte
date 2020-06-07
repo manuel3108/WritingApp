@@ -25,7 +25,7 @@
 		return new Promise((resolve) => {
 			api.load('client:auth2', () => {
 				api.client.init({
-					clientId: "303158223673-5s8id3ov5hv2tjunfih0lp8mk8bjhnii.apps.googleusercontent.com",
+					clientId: "1006714616831-jhaaavr7mf1cnt9hfa57gtnc48nqa7lq.apps.googleusercontent.com",
 					discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
 					scope: 'https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.readonly',
 				}).then(() => {
