@@ -3,7 +3,9 @@
 	import { onDestroy } from 'svelte';
 	import Index from './routes/index.svelte'
 	import ProvidersGoogleLogin from './routes/providers/google/login.svelte'
+	import ProvidersGoogleOpen from './routes/providers/google/open.svelte'
 	import ProvidersIndex from './routes/providers/index.svelte'
+	import WritingIndex from './routes/writing/index.svelte'
 	let Route;
 	let params=undefined
 	let uri = location.pathname;
@@ -20,7 +22,9 @@
 	const router = Navaid('/')
 		.on('/', () => {params = undefined; Route = Index;})
 		.on('/providers/google/login', () => {params = undefined; Route = ProvidersGoogleLogin;})
+		.on('/providers/google/open', () => {params = undefined; Route = ProvidersGoogleOpen;})
 		.on('/providers/', () => {params = undefined; Route = ProvidersIndex;})
+		.on('/writing/', () => {params = undefined; Route = WritingIndex;})
 		.listen();
 	onDestroy(router.unlisten);
 </script>

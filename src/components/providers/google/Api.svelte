@@ -29,7 +29,9 @@
 					discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
 					scope: 'https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.readonly',
 				}).then(() => {
-					resolve();
+					api.client.load('drive', 'v2', () => {
+						resolve();
+					});
 				});
 			});
 		});
@@ -62,5 +64,18 @@
 
 			resolve();
 		})
+	}
+
+	export function downloadDocument(id) {
+		return new Promise((resolve, reject) => {
+			api.client.drive.files.get({
+				fileId: id,
+				alt: 'media',
+			}).then((response) => {
+				resolve(response.body);
+			}).catch((response) => {
+				reject(response.result.error);
+			});
+		});
 	}
 </script>

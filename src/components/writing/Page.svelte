@@ -33,8 +33,8 @@
 
     import { SVG, Rect, Path } from 'svelte-svg'
     import paper from 'paper'
+    import { strokes } from '../../stores/document'
 
-    let strokes = [];
 
     let currentStroke;
     let registerEvents = false;
@@ -53,8 +53,8 @@
         registerEvents = false;
         lastPoint = undefined;
 
-        strokes.push(currentStroke);
-        strokes = strokes;
+        $strokes.push(currentStroke);
+        $strokes = $strokes;
 
         pointerCount--;
     }
@@ -102,7 +102,7 @@
 
 <div class='writing-svg-wrapper' on:pointerdown={onPointerDown} on:pointerup={onPointerUp} on:pointermove={onPointerMove}>
     <SVG>
-        {#each strokes as stroke}
+        {#each $strokes as stroke}
             <Path points={stroke.points} fill={stroke.color} stroke='transparent'/>
         {/each}
         {#if currentStroke !== undefined}
