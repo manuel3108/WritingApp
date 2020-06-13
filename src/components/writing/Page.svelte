@@ -40,7 +40,7 @@
         if ($documentId === null) {
             throw "$documentId cannot be null"
         }
-        
+
         console.log($documentId)
         connect("localhost:3000/echo").then(() => {
             send({
@@ -58,28 +58,6 @@
             })
         });
     });
-
-    // $: {
-    //     if ($documentId !== null) {
-    //         console.log($documentId)
-    //         connect("localhost:3000/echo").then(() => {
-    //             send({
-    //                 type: "join", 
-    //                 message: $documentId
-    //             })
-                
-    //             setMessageCallback((data) => {
-    //                 if(data.type === "addStroke") {
-    //                     console.log("got message", data)
-    //                     $strokes.push(data.message)
-    //                     $strokes = $strokes;
-    //                     console.log("compare", $strokes[0], data)
-    //                 }
-    //             })
-    //         });
-    //     }
-    // }
-
 
     let currentStroke;
     let registerEvents = false;

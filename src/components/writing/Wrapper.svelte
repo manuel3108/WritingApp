@@ -61,12 +61,21 @@
 	});
 </script>
 
-<div bind:this={drawingWrapper}  class="drawing-wrapper">
-    <Page />
+<div class="drawing">
+    <div bind:this={drawingWrapper}  class="drawing-wrapper">
+        <Page />
+    </div>
 </div>
 
 
 <style>
+    .drawing {
+		height: 100%;
+		max-height: 100%;
+		touch-action: none;
+		user-select: none;
+	}
+
     .drawing-wrapper {
         position: absolute;
 		background-color: blue;
