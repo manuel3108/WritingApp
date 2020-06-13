@@ -42,7 +42,7 @@
         }
 
         console.log($documentId)
-        connect("localhost:3000/echo").then(() => {
+        connect(window.location.host + "/echo").then(() => {
             send({
                 type: "join", 
                 message: $documentId
