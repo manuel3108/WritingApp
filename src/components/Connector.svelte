@@ -3,7 +3,7 @@
     
     export function connect(host) {
         return new Promise((resolve) => {
-            ws = new WebSocket("ws://" + host);
+            ws = new WebSocket(host);
 
             ws.onopen = () => {
                 ws.onmessage = (e) => {

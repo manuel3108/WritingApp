@@ -42,7 +42,9 @@
         }
 
         console.log($documentId)
-        connect(window.location.host + "/echo").then(() => {
+
+        
+        connect((window.location.protocol === "http:" ? "ws://" : "wss://" ) + window.location.host + "/echo").then(() => {
             send({
                 type: "join", 
                 message: $documentId
