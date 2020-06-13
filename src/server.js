@@ -1,25 +1,20 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
-const enableWs = require('express-ws')
+var enableWs = require("express-ws");
+const ws_process = require("./ws_server")
 
-var live = express.static('public');
 enableWs(app)
+var live = express.static('public');
 
 app.ws('/echo', (ws, req) => {
-    ws.on('message', msg => {
-        console.log("recieved message", msg)
-        ws.send(msg)
-    })
-
-    ws.on('close', () => {
-        console.log('WebSocket was closed')
-    })
+    ws_process(ws)
 })
 app.use(live);
 app.get('/*', function (req, res) {
     res.sendFile("index.html", {root: "public"});
 })
+// app.use(ws_server);
 
 app.listen(port, () => console.log(`App listening at http://localhost:${port}`))
 

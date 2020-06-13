@@ -1,7 +1,7 @@
 <script>
     import { documentId, strokes } from '../../stores/document'
     import { api } from '../../stores/providers'
-	import Wrapper from "../../components/writing/Wrapper.svelte";
+    import Wrapper from "../../components/writing/Wrapper.svelte";
 
 
     //TODO 
@@ -10,16 +10,19 @@
 
     $: {
         if($api !== null) {
-            $api.downloadDocument($documentId).then((content) => {
-                const strokesContent = JSON.parse(content);
-                strokesContent.forEach((stroke) => {
-                    $strokes.push(stroke);
-                });
-                $strokes = $strokes;
-            })
+            loadDocument($api);
         }
     }
 
+    function loadDocument(api) {
+        api.downloadDocument($documentId).then((content) => {
+            const strokesContent = JSON.parse(content);
+            strokesContent.forEach((stroke) => {
+                $strokes.push(stroke);
+            });
+            $strokes = $strokes;
+        })
+    }
 </script>
 
 <Wrapper />

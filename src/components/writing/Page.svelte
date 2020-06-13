@@ -30,10 +30,55 @@
         }
     }
 
-
     import { SVG, Rect, Path } from 'svelte-svg'
     import paper from 'paper'
-    import { strokes } from '../../stores/document'
+    import { strokes, documentId } from '../../stores/document'
+    import { connect, send, setMessageCallback } from '../Connector.svelte'
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        if ($documentId === null) {
+            throw "$documentId cannot be null"
+        }
+        
+        console.log($documentId)
+        connect("localhost:3000/echo").then(() => {
+            send({
+                type: "join", 
+                message: $documentId
+            })
+            
+            setMessageCallback((data) => {
+                if(data.type === "addStroke") {
+                    console.log("got message", data)
+                    $strokes.push(data.message)
+                    $strokes = $strokes;
+                    console.log("compare", $strokes[0], data)
+                }
+            })
+        });
+    });
+
+    // $: {
+    //     if ($documentId !== null) {
+    //         console.log($documentId)
+    //         connect("localhost:3000/echo").then(() => {
+    //             send({
+    //                 type: "join", 
+    //                 message: $documentId
+    //             })
+                
+    //             setMessageCallback((data) => {
+    //                 if(data.type === "addStroke") {
+    //                     console.log("got message", data)
+    //                     $strokes.push(data.message)
+    //                     $strokes = $strokes;
+    //                     console.log("compare", $strokes[0], data)
+    //                 }
+    //             })
+    //         });
+    //     }
+    // }
 
 
     let currentStroke;
@@ -57,6 +102,8 @@
         $strokes = $strokes;
 
         pointerCount--;
+
+        send({type: "addStroke", message: currentStroke})
     }
 
     function onPointerMove(event) {
