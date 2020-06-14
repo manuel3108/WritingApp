@@ -34,6 +34,7 @@
     import paper from 'paper'
     import { strokes, documentId } from '../../stores/document'
     import { connect, send, setMessageCallback } from '../Connector.svelte'
+    import { penColor, penSize } from '../../stores/pen'
     import { onMount } from 'svelte';
 
     onMount(() => {
@@ -41,9 +42,6 @@
             throw "$documentId cannot be null"
         }
 
-        console.log($documentId)
-
-        
         connect((window.location.protocol === "http:" ? "ws://" : "wss://" ) + window.location.host + "/echo").then(() => {
             send({
                 type: "join", 
@@ -65,11 +63,12 @@
     let registerEvents = false;
     let lastPoint;
     let pointerCount = 0;
+    let svgWrapper;
 
     function onPointerDown() {
         registerEvents = true;
 
-        currentStroke = new Stroke("#fff");
+        currentStroke = new Stroke($penColor);
 
         pointerCount++;
     }
@@ -84,6 +83,10 @@
         pointerCount--;
 
         send({type: "addStroke", message: currentStroke})
+
+
+
+        normalizePoint(new PressurePoint(100, 200, 10))
     }
 
     function onPointerMove(event) {
@@ -100,7 +103,7 @@
 		const paperPoint = new paper.Point(point.x, point.y);
 
 		if (lastPoint !== undefined) {
-			const pressure = point.pressure * 10;
+			const pressure = point.pressure * $penSize;
 
 			let delta = paperPoint.subtract(lastPoint);
 			delta = delta.normalize().multiply(pressure);
@@ -118,22 +121,38 @@
 			}
 
 			if (currentStroke !== undefined) {
-				currentStroke.addPoint(new PressurePoint(p1.x, p1.y, pressure), new PressurePoint(p2.x, p2.y, pressure));
+                currentStroke.addPoint(normalizePoint(new PressurePoint(p1.x, p1.y, pressure)), normalizePoint(new PressurePoint(p2.x, p2.y, pressure)));
 			}
 		} else {
 			lastPoint = paperPoint;
 		}
-	}
+    }
+    
+    function normalizePoint(point) {
+        return new PressurePoint(point.x / svgWrapper.clientWidth, point.y / svgWrapper.clientHeight, point.pressure)
+    }
+
+    function unnormalizePoint(point) {
+        return new PressurePoint(point.x * svgWrapper.clientWidth, point.y * svgWrapper.clientHeight, point.pressure)
+    }
+
+    function unnormalizePoints(points) {
+        let newPoints = [];
+        points.forEach(point => {
+            newPoints.push(unnormalizePoint(point))
+        });
+        return newPoints;
+    }
 </script>
 
 
-<div class='writing-svg-wrapper' on:pointerdown={onPointerDown} on:pointerup={onPointerUp} on:pointermove={onPointerMove}>
+<div class='writing-svg-wrapper' on:pointerdown={onPointerDown} on:pointerup={onPointerUp} on:pointermove={onPointerMove} bind:this={svgWrapper}>
     <SVG>
         {#each $strokes as stroke}
-            <Path points={stroke.points} fill={stroke.color} stroke='transparent'/>
+            <Path points={unnormalizePoints(stroke.points)} fill={stroke.color} stroke='transparent'/>
         {/each}
         {#if currentStroke !== undefined}
-            <Path points={currentStroke.points} fill={currentStroke.color} stroke='transparent'/>
+            <Path points={unnormalizePoints(currentStroke.points)} fill={currentStroke.color} stroke='transparent'/>
         {/if}
     </SVG>
 </div>

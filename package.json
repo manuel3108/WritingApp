@@ -21,8 +21,11 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "@mdi/js": "^5.3.45",
+    "a-color-picker": "^1.2.1",
     "acorn": "^7.2.0",
     "bulma": "^0.8.2",
+    "bulma-slider": "^2.0.0",
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
     "loadjs": "^4.2.0",
@@ -31,6 +34,7 @@
     "qss": "^2.0.3",
     "sirv-cli": "^0.4.4",
     "svelte-navaid-filebased": "^1.0.7",
+    "svelte-outside-click": "^1.0.0",
     "svelte-svg": "0.0.7"
   }
 }

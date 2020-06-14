@@ -4,12 +4,11 @@
     import Wrapper from "../../components/writing/Wrapper.svelte";
 
 
-    //TODO 
-    $documentId = "1HNdL9-9MPAmbCWILaHNGSh3AGNcz880r";
-    console.log($documentId)
+    let apiLoaded = false;
 
     $: {
         if($api !== null) {
+            apiLoaded = true;
             loadDocument($api);
         }
     }
@@ -25,4 +24,6 @@
     }
 </script>
 
-<Wrapper />
+{#if apiLoaded}
+    <Wrapper />
+{/if}

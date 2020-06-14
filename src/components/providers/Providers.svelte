@@ -15,13 +15,15 @@
                 $name = provider.name;
                 $api = provider.api;
                 $apiLoaded = true;
+
+                $api.saveUserProfile();
             }
         })
     });
 
     Promise.all(promises).then(() => {
         if(!$apiLoaded) {
-            goto("/providers")
+            // goto("/providers")
         }
     })
 

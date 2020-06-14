@@ -4,7 +4,7 @@
 	import Routes from './Routes'
 	import Navigation from './components/Navigation.svelte'
 	import Footer from './components/Footer.svelte'
-    import Providers from './components/providers/Providers'
+    import Providers from './components/providers/Providers.svelte'
 </script>
 
 <Providers />

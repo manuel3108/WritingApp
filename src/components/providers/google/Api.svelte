@@ -78,4 +78,45 @@
 			});
 		});
 	}
+
+	export function uploadFile(fileId, content) {
+		const boundary = '-------314159265358979323846';
+		const delimiter = `\r\n--${boundary}\r\n`;
+		const closeDelim = `\r\n--${boundary}--`;
+
+		const contentType = 'application/writing-app';
+		// Updating the metadata is optional and you can instead use the value from drive.files.get.
+		const base64Data = btoa(content);
+		const multipartRequestBody = `${delimiter}Content-Type: application/json\r\n\r\n${delimiter}Content-Type: ${contentType}\r\nContent-Transfer-Encoding: base64\r\n\r\n${base64Data}${closeDelim}`;
+
+		return api.client.request({
+			path: `/upload/drive/v2/files/${fileId}`,
+			method: 'PUT',
+			params: {
+				uploadType: 'multipart',
+				alt: 'json',
+			},
+			headers: {
+				'Content-Type': `multipart/mixed; boundary="${boundary}"`,
+			},
+			body: multipartRequestBody,
+		}).then((resp) => {
+			console.log('uploaded content', resp.result);
+		});
+	}
+
+	export function createFile(folderId) {
+		return new Promise((resolve, reject) => {
+			return api.client.request({
+				path: `/drive/v3/files`,
+				method: 'POST',
+				body: {
+					name: 'test name3'
+				}
+			}).then((resp) => {
+				console.log('created file', resp.result.id);
+				resolve(resp.result.id)
+			});
+		});
+	}
 </script>
