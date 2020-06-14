@@ -1,6 +1,6 @@
 <script>
     import { decode } from 'qss';
-    import { goto } from '../../../components/GoTo'
+    import { goto } from '../../../components/GoTo.svelte'
     import { api } from '../../../stores/providers'
     import { documentId } from '../../../stores/document'
     import { onMount } from 'svelte'

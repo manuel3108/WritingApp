@@ -1,7 +1,7 @@
 <script>
 	import UserProfile from "./navigation/UserProfile.svelte";
-	import ColorPicker from "./navigation/ColorPicker";
-	import PenSize from "./navigation/PenSize";
+	import ColorPicker from "./navigation/ColorPicker.svelte";
+	import PenSize from "./navigation/PenSize.svelte";
 	import DropDown from "./navigation/DropDown.svelte";
 	import Icon from "./Icon.svelte";
 	import { mdiPalette, mdiPencil, mdiContentSave, mdiAccountCircle } from "@mdi/js";

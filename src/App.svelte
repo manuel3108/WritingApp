@@ -1,7 +1,7 @@
 <script>
 	import 'bulma/css/bulma.css'
 
-	import Routes from './Routes'
+	import Routes from './Routes.svelte'
 	import Navigation from './components/Navigation.svelte'
 	import Footer from './components/Footer.svelte'
     import Providers from './components/providers/Providers.svelte'

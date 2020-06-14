@@ -1,5 +1,5 @@
 import { readable, writable } from 'svelte/store';
-import * as googleApi from '../components/providers/google/Api'
+import * as googleApi from '../components/providers/google/Api.svelte'
 
 export const name = writable(null);
 export const api = writable(null);

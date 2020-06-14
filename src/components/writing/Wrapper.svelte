@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
-    import { zoomMove } from '../TouchEvents'
-    import Page from './Page'
+    import { zoomMove } from '../TouchEvents.svelte'
+    import Page from './Page.svelte'
 
     var drawingWrapper;
 
