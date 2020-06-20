@@ -1,5 +1,5 @@
 <script>
-    import Icon from "../Icon.svelte";
+    import Icon from "../ui/Icon.svelte";
     import { mdiContentSave } from '@mdi/js'
     import { strokes, documentId } from '../../stores/document'
     import { api } from '../../stores/providers'

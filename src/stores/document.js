@@ -6,3 +6,4 @@ documentId.subscribe(value => {
 });
 
 export const strokes = writable([]);
+export const images = writable([]);

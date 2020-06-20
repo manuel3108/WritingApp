@@ -2,10 +2,11 @@
 	import UserProfile from "./navigation/UserProfile.svelte";
 	import ColorPicker from "./navigation/ColorPicker.svelte";
 	import PenSize from "./navigation/PenSize.svelte";
-	import DropDown from "./navigation/DropDown.svelte";
-	import Icon from "./Icon.svelte";
+	import DropDown from "./ui/DropDown.svelte";
+	import Icon from "./ui/Icon.svelte";
 	import { mdiPalette, mdiPencil, mdiContentSave, mdiAccountCircle } from "@mdi/js";
 	import SaveDocument from "./navigation/SaveDocument.svelte";
+	import UploadImage from "./navigation/UploadImage.svelte";
 </script>
 
 <style>
@@ -71,6 +72,9 @@
 			</div>
 			<div class="navbar-item">
 				<SaveDocument />
+			</div>
+			<div class="navbar-item">
+				<UploadImage />
 			</div>
 			<div class="navbar-item">
 				<DropDown Component={UserProfile}>
