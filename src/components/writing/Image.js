@@ -1,7 +1,11 @@
+import Point from './Point'
+
 export default class Image {
-    constructor(content) {
+    constructor(content, width, height) {
         this.content = content;
-        this.top = 0;
-        this.left = 0;
+        this.position = new Point(0, 0);
+
+        let newWidth = 0.5
+        this.size = new Point(newWidth, (newWidth / width) * height)
     }
 }

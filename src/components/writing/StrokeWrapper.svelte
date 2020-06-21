@@ -2,12 +2,13 @@
     import { SVG, Path } from 'svelte-svg'
     import paper from 'paper'
     import { strokes, documentId } from '../../stores/document'
+    import { penColor, penSize } from '../../stores/pen'
     import { connect, send, setMessageCallback } from '../Connector.svelte'
     import { RECEIPIENTS, TOPICS } from '../../shared/ws_terms'
-    import { penColor, penSize } from '../../stores/pen'
     import { onMount } from 'svelte';
     import Stroke from './Stroke'
     import PressurePoint from './PressurePoint'
+    import { getRelative, getAbsolute } from './PointHelper'
 
     export let parent;
 
@@ -39,15 +40,17 @@
         });
     });
 
-    function onPointerDown() {
+    export function onPointerDown() {
         registerEvents = true;
 
         currentStroke = new Stroke($penColor);
 
         pointerCount++;
+
+        return true;
     }
 
-    function onPointerUp() {
+    export function onPointerUp() {
         registerEvents = false;
         lastPoint = undefined;
 
@@ -57,13 +60,9 @@
         pointerCount--;
 
         send({topic: TOPICS.ADD_STROKE, message: currentStroke})
-
-
-
-        normalizePoint(new PressurePoint(100, 200, 10))
     }
 
-    function onPointerMove(event) {
+    export function onPointerMove(event) {
         if (registerEvents && pointerCount == 1) {
             const { pressure } = event;
             const point = new PressurePoint(event.offsetX, event.offsetY, pressure);
@@ -95,31 +94,23 @@
 			}
 
 			if (currentStroke !== undefined) {
-                currentStroke.addPoint(normalizePoint(new PressurePoint(p1.x, p1.y, pressure)), normalizePoint(new PressurePoint(p2.x, p2.y, pressure)));
+                currentStroke.addPoint(getRelative(new PressurePoint(p1.x, p1.y, pressure), parent), getRelative(new PressurePoint(p2.x, p2.y, pressure), parent));
 			}
 		} else {
 			lastPoint = paperPoint;
 		}
     }
     
-    function normalizePoint(point) {
-        return new PressurePoint(point.x / parent.clientWidth, point.y / parent.clientHeight, point.pressure)
-    }
-
-    function unnormalizePoint(point) {
-        return new PressurePoint(point.x * parent.clientWidth, point.y * parent.clientHeight, point.pressure)
-    }
-
     function unnormalizePoints(points) {
         let newPoints = [];
         points.forEach(point => {
-            newPoints.push(unnormalizePoint(point))
+            newPoints.push(getAbsolute(point, parent))
         });
         return newPoints;
     }
 </script>
 
-<div class="stroke-wrapper" on:pointerdown={onPointerDown} on:pointerup={onPointerUp} on:pointermove={onPointerMove} bind:this={parent}>
+<div class="stroke-wrapper" bind:this={parent}>
     <SVG>
         {#each $strokes as stroke}
             <Path points={unnormalizePoints(stroke.points)} fill={stroke.color} stroke='transparent'/>
@@ -136,6 +127,5 @@
         height: 100%;
         position: absolute;
         top: 0;
-        /* z-index: 20; */
     }
 </style>

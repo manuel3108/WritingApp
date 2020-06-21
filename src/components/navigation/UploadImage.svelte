@@ -8,9 +8,10 @@
 
     let isOpen = false;
     let imageContent = null;
+    let imageElement;
 
     function addImage(content) {
-        let image = new Image(imageContent);
+        let image = new Image(imageContent, imageElement.offsetWidth, imageElement.offsetHeight);
         $images.push(image);
         $images = $images;
     }
@@ -23,7 +24,7 @@
 <CardModal bind:isOpen title="Upload image" onSubmit={addImage}> 
     <FileUpload bind:content={imageContent} text="Upload image"/>
     <br>
-    <img class="preview-image" src={imageContent} alt=""/>
+    <img class="preview-image" src={imageContent} alt="" bind:this={imageElement}/>
 </CardModal>
 
 <style>
